@@ -1,0 +1,198 @@
+{{ define "base" }}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="icon" href="/favicon.ico">
+    <title>Book Matcher</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/static/js/script.js"></script>
+</head>
+
+<nav>
+    <p class="logo"><a href="/" style="color: #f3f3f3;text-decoration: none;font-size: 18px;">Book Matcher</a></p>
+
+    <div class="search-form">
+        <input type="text" class="textbox search-input" name="keyword" value="" placeholder="書籍タイトル、著者名を検索">
+        <div style="display:block;height: 38px;background-color: #47CF73;width: 55px;float: left;margin-top: 1px;border-radius: 0 5px 5px 0;">
+            <button type="submit" class="search-button" style="font-weight: bold;height: 38px;">
+                <span class="material-symbols-outlined">
+                    search
+                </span>
+            </button>
+        </div>
+    </div>
+    <button id="beforeRedirectContents1" style="width: 150px;" class="signup" type="submit" onclick="location.href='/signup'">新規登録（無料）</button>
+    <button id="beforeRedirectContents2" class="login" onclick="location.href='/login'" type="button">ログイン</button>
+    <button id="afterRedirectContents1" class="logout" type="button">ログアウト</button>
+</nav>
+
+<header>
+    <ul id="header">
+        <li style="margin-left: -25px;">
+            <a href="/">
+                <span class="material-symbols-outlined icon-style">house</span>
+                <span>ホーム</span>
+            </a>
+        </li>
+        <li id="rank">
+            <a href="/rank">
+                <span class="material-symbols-outlined icon-style">signal_cellular_alt</span>
+                <span>Bookランキング</span>
+            </a>
+        </li>
+        <li id="book_shelf">
+            <a href="/book_shelf">
+                <span class="material-symbols-outlined icon-style">shelf_position</span>
+                <span>本棚</span>
+            </a>
+        </li>
+        <li id="news">
+            <a href="/news">
+                <span class="material-symbols-outlined icon-style">newsmode</span>
+                <span>ニュース</span>
+            </a>
+        </li>
+        <li id="afterRedirectContents2" class="mypage">
+            <a href="/profile">
+                <span class="material-symbols-outlined icon-style">person</span>
+                <span>マイページ</span>
+            </a>
+            <div class="mypage-menu">
+                <a href="/profile">プロフィール</a>
+                <a href="/bookmark">ブックマーク</a>
+            </div>
+        </li>
+    </ul>
+    <select id="search-orderby">
+        <option value="relevance">並び替え：関連性の高い順</option>
+        <option value="newest">並び替え：新着順</option>
+    </select>
+</header>
+</html>
+
+<script>
+    // ページ読み込み時の処理
+    $(document).ready(function () {
+        // ログイン前後における表示切り替え
+        toggleRedirectContents();
+
+        // ローカルストレージから検索文字列を取得、表示
+        var savedSearchInput = localStorage.getItem("search-input");
+        if (savedSearchInput) {
+            $(".search-input").val(savedSearchInput);
+        }
+
+        // ローカルストレージから順序種別を取得、表示
+        var savedSearchOrderby = localStorage.getItem("search-orderby");
+        if (savedSearchOrderby) {
+            $("#search-orderby").val(savedSearchOrderby);
+            $("#search-orderby").prop('selected', true);
+        }
+
+        // 最初のli要素にactiveクラスを付与
+        $("#header li:first-child").addClass("active");
+    });
+
+    // 検索ボタンがクリックされたときの処理
+    $(document).on("click", ".search-button", function () {
+        // ログイン前後における表示切り替え
+        toggleRedirectContents();
+
+        // 入力値をローカルストレージに保存
+        localStorage.setItem("search-input", $(".search-input").val());
+        localStorage.setItem("search-orderby", $("#search-orderby").val());
+
+        // フォームのデフォルトの送信を防止
+        event.preventDefault();
+
+        // URLに検索文字列、ページ番号、順序種別のパラメータを追加してsearch_books.htmlを再描画
+        var q = $(".search-input").val();
+        var page = 1;
+        var orderBy = $("#search-orderby").val();
+        window.location.href = "/search?q=" + q + "&page=" + page + "&orderBy=" + orderBy;
+    });
+
+    // ログアウトボタンがクリックされたときの処理
+    $(".logout").on("click", function () {
+        // フォームデータをAjaxで送信する関数
+        $.ajax({
+            type: "PUT",
+            url: "/login",
+            success: function (response) {
+                // ログインフォームを表示
+                window.location.href = "/login";
+            },
+            error: function (xhr, status, error) {
+                // エラーの場合はエラーメッセージを表示
+                console.log(error);
+            }
+        });
+    });
+
+    // マイページメニューへカーソルを合わせたときの処理
+    $(".mypage").hover(function() {
+        $(".mypage-menu").show();
+        }, function() {
+        $(".mypage-menu").hide();
+    });
+
+    // li要素がクリックされたときの処理
+    $("#header li").on('click', function() {
+        // すべてのli要素からactiveクラスを削除
+        $("#header li").removeClass("active");
+
+        // クリックされたli要素にactiveクラスを付与
+        $("#header li").addClass("active");
+    });
+
+    // 順序種別セレクトボックスのchangeイベントを監視
+    $('#search-orderby').on('change', function() {
+        if ($(".search-input").val()) {
+            // 選択値をローカルストレージへ保存
+            localStorage.setItem("search-orderby", $("#search-orderby").val());
+
+            // URLに検索文字列、ページ番号、順序種別のパラメータを追加してsearch_books.htmlを再描画
+            var q = $(".search-input").val();
+            var page = 1;
+            var orderBy = $(this).val();
+            window.location.href = "/search?q=" + q + "&page=" + page + "&orderBy=" + orderBy;
+        }
+    });
+
+    // ログイン前後における表示切り替え
+    function toggleRedirectContents() {
+        // ローカルストレージからログインステータスを取得
+        var savedLoginStatus = localStorage.getItem("login-status");
+
+        if (!savedLoginStatus) {
+            // リダイレクト前のコンテンツを表示し、リダイレクト後のコンテンツを非表示にする
+            $("#beforeRedirectContents1").show();
+            $("#beforeRedirectContents2").show();
+            $("#afterRedirectContents1").hide();
+            $("#afterRedirectContents2").hide();
+            return
+        }
+
+        if (savedLoginStatus == "not-login") {
+            // リダイレクト前のコンテンツを表示し、リダイレクト後のコンテンツを非表示にする
+            $("#beforeRedirectContents1").show();
+            $("#beforeRedirectContents2").show();
+            $("#afterRedirectContents1").hide();
+            $("#afterRedirectContents2").hide();
+        } else {
+            // リダイレクト後のコンテンツを表示し、リダイレクト前のコンテンツを非表示にする
+            $("#beforeRedirectContents1").hide();
+            $("#beforeRedirectContents2").hide();
+            $("#afterRedirectContents1").show();
+            $("#afterRedirectContents2").show();
+        }
+    }
+</script>
+
+{{ end }}

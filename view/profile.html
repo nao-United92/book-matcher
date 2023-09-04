@@ -1,0 +1,233 @@
+{{ template "base" . }}
+
+<!DOCTYPE html>
+<html>
+
+<style>
+  #profile-container {
+    margin: 0 auto;
+    max-width: 758px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+  }
+
+  #profileForm {
+    display: flex;
+  }
+
+  .profile-icon {
+    width: 379px;
+    text-align: center;
+  }
+
+  #profile-image {
+    cursor: pointer;
+  }
+
+  .profile-info {
+    width: 379px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    vertical-align: top;
+    display: inline-block;
+    margin: -15px 0 -15px 0;
+  }
+
+  .info-item {
+    margin-top: 20px;
+    margin-bottom: 15px;
+  }
+
+  .label-item {
+    background-color: #f3f3f3;
+    border: 1px solid #ddd;
+    border-radius: 5px 0 0 5px;
+    width: 135px;
+    float: left;
+    height: 31.5px;
+  }
+
+  .info-div {
+    margin-top: 5px;
+    text-align: center;
+  }
+
+  .info-input {
+    width: 229px;
+    border-radius: 0 5px 5px 0;
+    border: 1px solid #ddd;
+    margin-left: -1px;
+    height: 29.5px;
+    padding-left: 10px;
+  }
+</style>
+
+<body>
+
+  <h2 style="text-align: center;">プロフィール</h2>
+  <div id="profile-container">
+    <!-- アラートの表示 -->
+    <p class="error"></p>
+    <p class="success"></p>
+
+    <div id="profileForm">
+      <!-- プロフィール画像、ユーザー名の表示 -->
+      <div class="profile-icon">
+        <img id="profile-image" src="{{ .ImagePath }}" width="84" height="84">
+        <input type="file" id="file-input" style="display: none;">
+        <h3>{{ .Username }}</h3>
+      </div>
+
+      <!-- ユーザーデータ、データ編集機能、アカウント削除機能の表示 -->
+      <div class="profile-info">
+        <!-- ユーザーデータの表示 -->
+        <div style="margin-bottom: 15px;">
+          <label for="username" class="label-item">
+            <div class="info-div">ユーザー名</div>
+          </label>
+          <input id="user-id" type="hidden" value="{{ .UserId }}">
+          <input id="user-name" class="info-input" type="text" name="username" placeholder="ユーザー名" value="{{ .Username }}" required readonly>
+        </div>
+        <div class="info-item">
+          <label for="address" class="label-item">
+            <div class="info-div">メールアドレス</div>
+          </label>
+          <input id="user-address" class="info-input" type="text" name="address" placeholder="メールアドレス" value="{{ .Address }}" required readonly>
+        </div>
+        <div class="info-item">
+          <label for="introduction" class="label-item" style="border-radius: 5px 5px 0 0;">
+            <div class="info-div">自己紹介</div>
+          </label>
+          <textarea id="introduction" class="info-text" name="introduction" style="resize: none;border-radius: 0 5px 5px 5px;margin-top: -1px;" rows="10" cols="20" autocomplete readonly>{{ .Introduction }}</textarea>
+        </div>
+
+        <!-- ユーザーデータ編集 -->
+        <button id="edit-btn" class="btn" style="display: block;margin: 17px auto 0 auto;" type="submit">編集</button>
+
+        <!-- アカウント削除 -->
+        <div class="info-item" style="display: inline-block;">
+          <a href="" id="delete-account" style="text-decoration: none;color:red;display: flex;">
+            <span class="material-symbols-outlined">person_remove</span>
+            <span style="margin-left: 5px;">アカウントを削除</span>
+          </a>
+        </div>
+
+        <!-- ローディングオーバーレイ -->
+        <div id="loadingOverlay">
+          <div class="loader"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ページ読み込み時の処理
+    $(document).ready(function () {
+      // すべてのli要素からactiveクラスを削除
+      $("#header li").removeClass("active");
+
+      // クリックされたli要素にactiveクラスを付与
+      $("#header #afterRedirectContents2").addClass("active");
+    });
+
+    // プロフィール画像がクリックされたときの処理
+    $("#profile-image").on("click", function() {
+      // ファイル選択ダイアログを開く
+      $("#file-input").trigger("click");
+    });
+
+    // ファイル選択ダイアログで画像選択後の処理
+    $("#file-input").on("change", function() {
+      // プロフィール画像を選択した画像へ変更
+      var file = this.files[0];
+      var reader = new FileReader();
+      reader.onload = function(e) {
+          $("#profile-image").attr("src", e.target.result);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // 編集/保存ボタンがクリックされたときの処理
+    $("#edit-btn").on("click", function() {
+      var infoInput = $(".info-input");
+      var infoText = $(".info-text");
+
+      if (infoInput.prop("readonly")) {
+			  // プロフィールデータの読み取り専用を解除する
+        infoInput.prop("readonly", false);
+        infoText.prop("readonly", false);
+
+        // 編集 ⇨ 保存ボタンへ変更
+        $(this).text("保存");
+      } else {
+        // フォームデータをAjaxで送信する関数
+        $.ajax({
+          type: "PUT",
+          url: "/profile",
+          data: {
+            process_type: "UpdateProfileInfo",
+            user_id: $("#user-id").val(),
+            user_name: $("#user-name").val(),
+            address: $("#user-address").val(),
+            introduction: $("#introduction").val(),
+          },
+          beforeSend: function() {
+            // ローディングオーバーレイを表示
+            $("#loadingOverlay").show();
+          },
+          success: function (response) {
+            // 画面をリロード
+            location.reload();
+          },
+          complete: function() {
+            // ローディングオーバーレイを非表示
+            $("#loadingOverlay").hide();
+          },
+          error: function (xhr, status, error) {
+            // エラーの場合はエラーメッセージを表示
+            $(".error").text(xhr.responseJSON.Error);
+          }
+        });
+      }
+    });
+
+    // アカウント削除ボタンがクリックされたときの処理
+    $("#delete-account").on("click", function() {
+      // 確認メッセージを表示し、OKならAjaxリクエストを送信
+      if (confirm("アカウントを削除します。よろしいですか？")) {
+        $.ajax({
+          type: "PUT",
+          url: "/profile",
+          data: {
+            process_type: "DeleteAccount",
+            user_id: $("#user-id").val(),
+          },
+          beforeSend: function() {
+            // ローディングオーバーレイを表示
+            $("#loadingOverlay").show();
+          },
+          success: function(response) {
+            // 画面を再描画
+            window.location.href = "/login";
+          },
+          complete: function() {
+            // ローディングオーバーレイを非表示
+            $("#loadingOverlay").hide();
+          },
+          error: function (xhr, status, error) {
+            // エラーの場合はエラーメッセージを表示
+            $(".error").text(xhr.responseJSON.Error);
+          }
+        });
+      } else {
+        // NGの場合
+        console.log("アカウントの削除をキャンセルしました。");
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,198 @@
+{{ template "base" . }}
+
+<!DOCTYPE html>
+<html>
+
+<style>
+  .searchResultForm {
+    margin: 0 auto;
+    max-width: 750px;
+    position: relative;
+    z-index: -1;
+  }
+
+  .searchResult {
+    border: solid 1px #dcdcdc;
+    border-radius: 6px 6px 6px 6px;
+    overflow: hidden;
+  }
+
+  .itemListArea {
+    padding: 20px;
+    border-bottom: 1px solid #dcdcdc;
+    background: #fff;
+    position: relative;
+  }
+
+  .itemListArea:last-child {
+    border-bottom: none;
+  }
+
+  .itemListArea .itemListImage {
+    float: left;
+    width: 120px;
+  }
+
+  .itemListArea .itemListInfo {
+    float: left;
+    width: 600px;
+  }
+
+  .itemListImage img {
+    width: 80px;
+    overflow-clip-margin: content-box;
+    overflow: clip;
+    margin-left: 2.5px;
+  }
+
+  .clearFix:after,
+  .clearfix:after {
+    content: " ";
+    display: block;
+    clear: both;
+  }
+
+  .itemListInfo {
+    margin-left: -12.5px;
+  }
+
+  .itemListInfo a {
+    overflow: hidden;
+    text-decoration: none;
+    color: #4ea6cc;
+  }
+
+  .pagination {
+    font-size: medium;
+    margin: 20px 0 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0 8px;
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .pagination a {
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #D2B48C;
+    border-radius: 1px;
+    color: #D2B48C;
+    font-weight: 520;
+    cursor: pointer;
+  }
+
+  .pagination a.active {
+    background-color: #D2B48C;
+    color: #fff;
+  }
+
+  .itemImg {
+    display: left;
+    width: 80px;
+    margin-right: 10px;
+    float: left;
+  }
+</style>
+
+<body>
+  <div class="searchResultForm">
+    {{ if .Error }}
+    <p class="error">{{ .Error }}</p>
+    {{ end }}
+    {{ if .Success }}
+    <p class="success">{{ .Success }}</p>
+    {{ end }}
+
+    {{ if .books }}
+    <div class="searchResult">
+      {{ range .books }}
+      <div class="itemListArea clearFix">
+        <div class="itemListImage">
+          {{ if .ImageLinks.SmallThumbnail }}
+          <img src="{{ .ImageLinks.SmallThumbnail }}" class="itemImg">
+          {{ else }}
+          <img src="#" class="itemImg">
+          {{ end }}
+        </div>
+
+        <div class="itemListInfo">
+          <h3 class="b10M">
+            <a href="#" onclick="track('search','item','title');" class="titleLink">{{ .Title }}</a>
+          </h3>
+
+          <div class="descMini">
+            <div class="author">
+              著者: {{ range .Authors }}{{ . }}{{ end }}
+            </div>
+            <div class="description">
+              {{ .Description }}
+            </div>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+    {{ else }}
+    <p>該当する書籍はありませんでした。</p>
+    {{ end }}
+  </div>
+
+  <div class="pagination">
+    <form id="pagenation-form" method="post" action="/search">
+      {{ if .prevPage }}
+        <button type="submit" name="prev-Page" value="{{ .prevPage }}"><<</button>
+      {{ end }}
+
+      {{ range .totalPages }}
+        {{ if le . 10 }}
+          {{ if eq . $.currentPage }}
+            <button type="submit" name="active-Page" class="active" value="{{ . }}">{{ . }}</button>
+          {{ else }}
+            <button type="submit" name="non-Active-Page" value="{{ . }}">{{ . }}</button>
+          {{ end }}
+        {{ end }}
+      {{ end }}
+
+      {{ if .nextPage }}
+        <button type="submit" name="next-Page" value="{{ .nextPage }}">>></button>
+      {{ end }}
+    </form>
+  </div>
+</body>
+</html>
+
+<script>
+  $(document).ready(function () {
+    $('#pagenation-form').click(function () {
+      event.preventDefault(); // フォームの通常の送信をキャンセル
+
+      $.ajax({
+        type: 'POST',
+        url: '/search',
+        data: {
+          page: $(this).find(':focus').val()
+        },
+        success: function (response) {
+          $("body").html(response);
+        },
+        error: function (xhr, status, error) {
+          console.error("エラー:", error);
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+⇩⇩⇩⇩⇩ base.html > head に記述されていた処理
+    <!-- <script>
+        // ブラウザの戻るボタンクリックを検知
+        window.addEventListener("popstate", function (event) {
+            hideLogin(); // ログインフォームを非表示にする
+        });
+    </script> -->

@@ -1,0 +1,326 @@
+{{ template "base" . }}
+
+<!DOCTYPE html>
+<html>
+
+<style>
+    #searchResultForm {
+        margin: 0 auto;
+        max-width: 900px;
+        z-index: -1;
+    }
+
+    #searchResult {
+        border: solid 1px #dcdcdc;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .itemListArea {
+        padding: 20px;
+        border-bottom: 1px solid #dcdcdc;
+        background: #fff;
+        position: relative;
+    }
+
+    .itemListArea:last-child {
+        border-bottom: none;
+    }
+
+    .itemListArea {
+        float: left;
+        width: 860px;
+    }
+
+    .itemListImage img {
+        width: 180px;
+        overflow-clip-margin: content-box;
+        overflow: clip;
+        transition-duration: 0.2s;
+    }
+
+    .clearFix:after,
+    .clearfix:after {
+        content: " ";
+        display: block;
+        clear: both;
+    }
+
+    .itemListInfo {
+        float: left;
+        width: 660px;
+    }
+
+    .itemImg,
+    .itemImgWithSample {
+        display: left;
+        width: 80px;
+        margin-right: 20px;
+        float: left;
+    }
+
+    .itemImgWithSample:hover {
+        box-shadow: 0px 1px 10px 0px #696969;
+        transform: translateY(-5px);
+        transition-duration: 0.5s;
+    }
+
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        float: left;
+    }
+
+    .tooltip .tooltipText {
+        visibility: hidden;
+        background-color: #333;
+        color: #fff;
+        border-radius: 4px;
+        padding: 3px;
+        position: absolute;
+        z-index: 1;
+        top: -19.5px;
+        left: 160.5%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        width: 250px;
+        text-align: center;
+    }
+
+    .tooltip:hover .tooltipText {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .tooltip .tooltipText::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 100%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent #333 transparent transparent;
+    }
+
+    .tooltip .tooltipText2 {
+        visibility: hidden;
+        background-color: #333;
+        color: #fff;
+        border-radius: 4px;
+        padding: 3px;
+        position: absolute;
+        z-index: 1;
+        top: -80%;
+        left: 75.7%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        width: 150px;
+        text-align: center;
+    }
+
+    .tooltip:hover .tooltipText2 {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .tooltip .tooltipText2::before {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        margin-left: -15px;
+        border: 5px solid transparent;
+        border-top: 5px solid #333;
+    }
+
+    #item-link li {
+        list-style: none;
+        margin-left: -40px;
+        max-width: 320px;
+        display: flex;
+        float: left;
+    }
+
+    #item-link li a {
+        width: 320px;
+        border-radius: 5px;
+        color: #fff;
+        display: block;
+        text-decoration: none;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    #bookmark a {
+        font-size: 15px;
+        padding: 10px;
+        border: 1px solid #47CF73;
+        background-color: #47CF73;
+    }
+
+    #bookmark a:hover {
+        border-color: #30ab58;
+        background-color: #30ab58;
+    }
+
+    .sample-page a {
+        padding-left: 49px;
+        font-size: 13px;
+        padding: 11px;
+        border-color: #F8B400;
+        background-color: #F8B400;
+    }
+
+    .sample-page a:hover {
+        border-color: #cf9702;
+        background-color: #cf9702;
+    }
+</style>
+
+<body>
+    <div id="searchResultForm">
+        <!-- アラートの表示 -->
+        <p class="error"></p>
+        <p class="success"></p>
+
+        <form id="searchResult">
+            <div class="itemListArea clearFix">
+                <!-- サムネイル画像、サンプルページ遷移を示すツールチップの表示 -->
+                <div class="itemListImage tooltip">
+                    <input type="hidden" value="{{ .Id }}">
+                    {{ if .SmallThumbnail }}
+                    {{ if .WebReaderLink }}
+                    <a href="{{ .WebReaderLink }}" target="_blank" rel="noopener noreferrer"><img
+                            src="{{ .SmallThumbnail }}" alt="thumbnail" class="itemImgWithSample"></a>
+                    {{ else }}
+                    <img src="{{ .SmallThumbnail }}" alt="thumbnail" class="itemImg">
+                    {{ end }}
+                    {{ if eq .AccessViewStatus "SAMPLE" }}
+                    <span class="tooltipText">クリックすると試し読みできます。</span>
+                    {{ end }}
+                    {{ else }}
+                    <img src="#" class="itemImg">
+                    {{ end }}
+                </div>
+
+                <!-- 書籍データの表示 -->
+                <div class="itemListInfo">
+                    <!-- 書籍タイトル・サブタイトル -->
+                    <h1 style="margin-top: 0;">{{ .Title }}{{ .Subtitle }}</h1>
+
+                    <!-- 著者名 / 出版社 / 出版日 の表示 -->
+                    {{ if .Authors }}
+                    <p>著者: {{ range .Authors }}{{ . }}{{ end }}</p>
+                    {{ end }}
+                    {{ if .Publisher }}
+                    <p>出版社: {{ .Publisher }}</p>
+                    {{ end }}
+                    {{ if .PublishedDate }}
+                    <p>出版日: {{ .PublishedDate }}</p>
+                    {{ end }}
+
+                    <!-- ブックマーク追加ボタン、サンプルページ遷移ボタンの表示 -->
+                    <p>
+                    <ul id="item-link">
+                        {{ if and ( .UserId ) ( ne .FromPage "bookmark" ) }}
+                            <li id="bookmark" class="tooltip">
+                                {{ if .IsBookmark }}
+                                    <span class="tooltipText2">既に追加済みです。</span>
+                                    <a href="#" class="add-bookmark" style="pointer-events: none;background-color: #dcdcdc;border: solid 1px #dcdcdc;">
+                                        <span class="material-symbols-outlined"
+                                        style="color: #fff;float: left;padding-left: 70px;">
+                                        bookmark_add
+                                        </span>
+                                        <span style="padding-right: 60px;">ブックマークへ追加</span>
+                                    </a>
+                                {{ else }}
+                                    <a href="#" class="add-bookmark">
+                                        <span class="material-symbols-outlined"
+                                        style="color: #fff;float: left;padding-left: 70px;">
+                                        bookmark
+                                        </span>
+                                        <span style="padding-right: 60px;">ブックマークへ追加</span>
+                                    </a>
+                                {{ end }}
+                            </li>
+                            {{ if .WebReaderLink }}
+                            <li class="sample-page" style="margin-left: 20px;">
+                                <a href="{{ .WebReaderLink }}" target="_blank" rel="noopener noreferrer">
+                                    <span class="material-symbols-outlined"
+                                    style="color: #fff;float: left;padding-left: 30px;">
+                                        moved_location
+                                    </span>
+                                    <span style="padding-right: 20px;display: block;padding-top: 2px;">GooglePlay
+                                        無料サンプルページへ
+                                    </span>
+                                </a>
+                            </li>
+                            {{ end }}
+                        {{ else }}
+                            {{ if .WebReaderLink }}
+                            <li class="sample-page">
+                                <a href="{{ .WebReaderLink }}" target="_blank" rel="noopener noreferrer">
+                                    <span class="material-symbols-outlined"
+                                    style="color: #fff;float: left;padding-left: 30px;">
+                                        moved_location
+                                    </span>
+                                    <span style="padding-right: 20px;display: block;padding-top: 2px;">GooglePlay
+                                        無料サンプルページへ
+                                    </span>
+                                </a>
+                            </li>
+                            {{ end }}
+                        {{ end }}
+                    </ul>
+                    </p>
+
+                    <!-- 書籍概要 -->
+                    <p style="float: left;">{{ .Description }}</p>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // ブックマークボタンがクリックされたときの処理
+            $(".add-bookmark").on("click", function (e) {
+                e.preventDefault();
+
+                // フォームデータをAjaxで送信する関数
+                $.ajax({
+                    type: "POST",
+                    url: "/bookmark",
+                    data: {
+                        id: "{{ .Id }}",
+                        title: "{{ .Title }}",
+                        subtitle: "{{ .Subtitle }}",
+                        authors: "{{ .Authors }}",
+                        description: "{{ .Description }}",
+                        smallthumbnail: "{{ .SmallThumbnail }}",
+                        publisher: "{{ .Publisher }}",
+                        published_date: "{{ .PublishedDate }}",
+                        webreaderlink: "{{ .WebReaderLink }}",
+                        accessviewstatus: "{{ .AccessViewStatus }}",
+                    },
+                    success: function (response) {
+                        // 成功の場合は完了メッセージを表示
+                        alert(response);
+
+                        // 画面をリロード
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        // エラーの場合はエラーメッセージを表示
+                        $(".error").text(xhr.responseJSON.Error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

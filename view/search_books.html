@@ -1,0 +1,195 @@
+{{ template "base" . }}
+
+<!DOCTYPE html>
+<html>
+
+<style>
+  #searchResultForm {
+    margin: 0 auto;
+    max-width: 800px;
+    z-index: -1;
+  }
+
+  #searchResult {
+    border: solid 1px #dcdcdc;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .itemListArea {
+    padding: 20px;
+    border-bottom: 1px solid #dcdcdc;
+    background: #fff;
+    position: relative;
+  }
+
+  .itemListArea:last-child {
+    border-bottom: none;
+  }
+
+  .itemListArea {
+    float: left;
+    width: 760px;
+  }
+
+  .itemListImage img {
+    width: 80px;
+    overflow-clip-margin: content-box;
+    overflow: clip;
+    cursor: pointer;
+    transition-duration: 0.2s;
+  }
+
+  .itemListImage:hover img{
+    opacity: 0.6;
+    transition-duration: 0.2s;
+  }
+
+  .clearFix:after,
+  .clearfix:after {
+    content: " ";
+    display: block;
+    clear: both;
+  }
+
+  .itemListInfo {
+      float: left;
+      width: 660px;
+    }
+
+  .itemListInfo a {
+    overflow: hidden;
+    text-decoration: none;
+    color: #4ea6cc;
+  }
+
+  #pagination {
+    font-size: medium;
+    margin: 20px 0 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0 8px;
+    list-style-type: none;
+    padding: 0;
+  }
+
+  #pagination .pagination-button {
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #D2B48C;
+    border-radius: 5px;
+    color: #D2B48C;
+    font-weight: 520;
+    cursor: pointer;
+    background-color: #fff;
+  }
+
+  #pagination .pagination-button.active {
+    background-color: #D2B48C;
+    color: #fff;
+  }
+
+  .itemImg {
+    display: left;
+    width: 80px;
+    margin-right: 20px;
+    float: left;
+  }
+</style>
+
+<body>
+  <div id="searchResultForm">
+    <!-- アラートの表示制御 -->
+    {{ if .Error }}
+    <p class="error">{{ .Error }}</p>
+    {{ end }}
+    {{ if .Success }}
+    <p class="success">{{ .Success }}</p>
+    {{ end }}
+
+    <!-- 書籍データの表示制御 -->
+    {{ if .Books }}
+    <div id="searchResult">
+      {{range $book := .Books}}
+      <div class="itemListArea clearFix">
+        <div class="itemListImage">
+          <!-- サムネイル画像の表示制御 -->
+          {{ if $book.SmallThumbnail }}
+            <a href="search_detail?id={{ $book.Id }}&smallThumbnail={{ $book.SmallThumbnail }}&title={{ $book.Title }}&subtitle={{ $book.Subtitle }}&authors={{ $book.Authors }}&description={{ $book.Description }}&publisher={{ $book.Publisher }}&publishedDate={{ $book.PublishedDate }}&saleability={{ $book.Saleability }}&webReaderLink={{ $book.WebReaderLink }}&accessViewStatus={{ $book.AccessViewStatus }}"><img src="{{ $book.SmallThumbnail }}" alt="thumbnail" class="itemImg"></a>
+          {{ else }}
+            <img src="#" class="itemImg">
+          {{ end }}
+        </div>
+        <div class="itemListInfo">
+          <!-- 書籍タイトル・サブタイトルの表示 -->
+          {{ if $book.WebReaderLink }}
+            <a href="search_detail?id={{ $book.Id }}&smallThumbnail={{ $book.SmallThumbnail }}&title={{ $book.Title }}&subtitle={{ $book.Subtitle }}&authors={{ $book.Authors }}&description={{ $book.Description }}&publisher={{ $book.Publisher }}&publishedDate={{ $book.PublishedDate }}&saleability={{ $book.Saleability }}&webReaderLink={{ $book.WebReaderLink }}&accessViewStatus={{ $book.AccessViewStatus }}"><h3 style="margin-top: 0;">{{ $book.Title }}{{ $book.Subtitle }}</h3></a>
+          {{ else }}
+            <a href="search_detail?id={{ $book.Id }}&smallThumbnail={{ $book.SmallThumbnail }}&title={{ $book.Title }}&subtitle={{ $book.Subtitle }}&authors={{ $book.Authors }}&description={{ $book.Description }}&publisher={{ $book.Publisher }}&publishedDate={{ $book.PublishedDate }}&saleability={{ $book.Saleability }}"><h3 style="margin-top: 0;">{{ $book.Title }}{{ $book.Subtitle }}</h3></a>
+          {{ end }}
+
+          <!-- 著者名 / 出版社 / 出版日 の表示制御 -->
+          {{ if and $book.Authors $book.Publisher }}
+          <p>{{ range $book.Authors }}{{ . }}{{ end }} / {{ $book.Publisher }} / {{ $book.PublishedDate }}</p>
+          {{ else if and $book.Authors (not (len $book.Publisher))  }}
+          <p>{{ range $book.Authors }}{{ . }}{{ end }} / {{ $book.PublishedDate }}</p>
+          {{ else if and (not (len $book.Authors)) $book.Publisher }}
+          <p>{{ $book.Publisher }} / {{ $book.PublishedDate }}</p>
+          {{ else }}
+          <p>{{ $book.PublishedDate }}</p>
+          {{ end }}
+
+          <!-- 書籍概要 -->
+          <p style="text-overflow: ellipsis;-webkit-text-overflow: ellipsis;-o-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{ $book.Description }}</p>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+    {{ else }}
+    <p>該当する書籍はありませんでした。</p>
+    {{ end }}
+  </div>
+
+  <!-- ページネーションエリアの表示制御 -->
+  {{ if .Books }}
+	<div id="pagination">
+		{{if gt .CurrentPage 1}}
+			<button class="pagination-button" data-page="{{ .Previous }}"><<</button>
+		{{end}}
+
+    {{ range $i := .Pages }}
+      {{ if le . 10 }}
+        {{ if eq . $.CurrentPage }}
+          <button class="pagination-button active" data-page="{{ $i }}">{{ $i }}</button>
+        {{ else }}
+          <button class="pagination-button" data-page="{{ $i }}">{{ $i }}</button>
+        {{ end }}
+      {{ end }}
+    {{ end }}
+
+		{{if lt .CurrentPage .TotalPages}}
+			<button class="pagination-button" data-page="{{ .Next }}">>></button>
+		{{end}}
+	</div>
+  {{ end }}
+
+	<script>
+    // ページネーションボタンがクリックされたときの処理
+    $(document).on("click", ".pagination-button", function() {
+      var searchWord = $(".search-input").val();
+      var currentPage = parseInt($(".pagination-button.active").data("page"));
+      var page;
+      if ($(this).text() === "<<") {
+        page = currentPage - 1;
+      } else if ($(this).text() === ">>") {
+        page = currentPage + 1;
+      } else {
+        page = $(this).data("page");
+      }
+      var orderBy = $("#search-orderby").val();
+      window.location.href = "/search?q=" + searchWord + "&page=" + page + "&orderBy=" + orderBy;
+    });
+	</script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+{{ template "base" . }}
+
+<!DOCTYPE html>
+<html>
+
+<style>
+  #searchResultForm {
+    margin: 0 auto;
+    max-width: 800px;
+    z-index: -1;
+  }
+
+  #searchResult {
+    border: solid 1px #dcdcdc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .itemListArea {
+    padding: 20px;
+    border-bottom: 1px solid #dcdcdc;
+    background: #fff;
+    position: relative;
+  }
+
+  .itemListArea:last-child {
+    border-bottom: none;
+  }
+
+  .itemListArea {
+    float: left;
+    width: 760px;
+  }
+
+  .itemListImage img {
+    width: 80px;
+    overflow-clip-margin: content-box;
+    overflow: clip;
+    cursor: pointer;
+    transition-duration: 0.2s;
+  }
+
+  .itemListImage:hover img{
+    opacity: 0.6;
+    transition-duration: 0.2s;
+  }
+
+  .clearFix:after,
+  .clearfix:after {
+    content: " ";
+    display: block;
+    clear: both;
+  }
+
+  .itemListInfo {
+    float: left;
+    width: 636px;
+  }
+
+  .itemListInfo a {
+    overflow: hidden;
+    text-decoration: none;
+    color: #4ea6cc;
+  }
+
+  #pagination {
+    font-size: medium;
+    margin: 20px 0 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0 8px;
+    list-style-type: none;
+    padding: 0;
+  }
+
+  #pagination .pagination-button {
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #D2B48C;
+    border-radius: 5px;
+    color: #D2B48C;
+    font-weight: 520;
+    cursor: pointer;
+    background-color: #fff;
+  }
+
+  #pagination .pagination-button.active {
+    background-color: #D2B48C;
+    color: #fff;
+  }
+
+  .itemImg {
+    display: left;
+    width: 80px;
+    margin-right: 20px;
+    float: left;
+  }
+
+  .tooltip .tooltipText {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+    padding: 3px;
+    position: absolute;
+    z-index: 1;
+    top: 6.6%;
+    right: 8.5%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    width: 130px;
+    text-align: center;
+  }
+
+  .tooltip:hover .tooltipText {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .tooltip .tooltipText::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #333 transparent transparent;
+  }
+</style>
+
+<body>
+  <div id="searchResultForm" class="tooltip">
+    <h2 style="text-align: center;">ブックマークリスト</h2>
+
+    <!-- アラートの表示制御 -->
+    {{ if .Error }}
+    <p class="error">{{ .Error }}</p>
+    {{ end }}
+    {{ if .Success }}
+    <p class="success">{{ .Success }}</p>
+    {{ end }}
+
+    <!-- 書籍データの表示制御 -->
+    {{ if .Bookmarks }}
+    <div id="searchResult">
+      {{ range $bookmark := .Bookmarks }}
+      <div class="itemListArea clearFix">
+        <div class="itemListImage">
+          <input id="bookmark-id" type="hidden" value="{{ $bookmark.BookmarkId }}">
+          <!-- サムネイル画像の表示制御 -->
+          {{ if index $bookmark.BookInfo 4}}
+            <a href="search_detail?id={{ $bookmark.ItemId }}&smallThumbnail={{ index $bookmark.BookInfo 4 }}&title={{ index $bookmark.BookInfo 0 }}&subtitle={{ index $bookmark.BookInfo 1 }}&authors={{ index $bookmark.BookInfo 2 }}&description={{ index $bookmark.BookInfo 3 }}&publisher={{ index $bookmark.BookInfo 5 }}&publishedDate={{ index $bookmark.BookInfo 6 }}&saleability={{ index $bookmark.BookInfo 7 }}&webReaderLink={{ index $bookmark.BookInfo 8 }}&accessViewStatus={{ index $bookmark.BookInfo 9 }}&fromPage=bookmark"><img src="{{ index $bookmark.BookInfo 4 }}" alt="thumbnail" class="itemImg"></a>
+          {{ else }}
+            <img src="#" class="itemImg">
+          {{ end }}
+        </div>
+        <div class="itemListInfo">
+          <!-- 書籍タイトル・サブタイトル -->
+          {{ if index $bookmark.BookInfo 8 }}
+            <a href="search_detail?id={{ $bookmark.ItemId }}&smallThumbnail={{ index $bookmark.BookInfo 4 }}&title={{ index $bookmark.BookInfo 0 }}&subtitle={{ index $bookmark.BookInfo 1 }}&authors={{ index $bookmark.BookInfo 2 }}&description={{ index $bookmark.BookInfo 3 }}&publisher={{ index $bookmark.BookInfo 5 }}&publishedDate={{ index $bookmark.BookInfo 6 }}&saleability={{ index $bookmark.BookInfo 7 }}&webReaderLink={{ index $bookmark.BookInfo 8 }}&accessViewStatus={{ index $bookmark.BookInfo 9 }}&fromPage=bookmark"><h3 style="margin-top: 0;">{{ index $bookmark.BookInfo 0 }}{{ index $bookmark.BookInfo 1 }}</h3></a>
+          {{ else }}
+            <a href="search_detail?id={{ $bookmark.ItemId }}&smallThumbnail={{ index $bookmark.BookInfo 4 }}&title={{ index $bookmark.BookInfo 0 }}&subtitle={{ index $bookmark.BookInfo 1 }}&authors={{ index $bookmark.BookInfo 2 }}&description={{ index $bookmark.BookInfo 3 }}&publisher={{ index $bookmark.BookInfo 5 }}&publishedDate={{ index $bookmark.BookInfo 6 }}&saleability={{ index $bookmark.BookInfo 7 }}&fromPage=bookmark"><h3 style="margin-top: 0;">{{ index $bookmark.BookInfo 0 }}{{ index $bookmark.BookInfo 1 }}</h3></a>
+          {{ end }}
+
+          <!-- 著者名 / 出版社 / 出版日 の表示制御 -->
+          {{ if and (index $bookmark.BookInfo 2) (index $bookmark.BookInfo 5) (index $bookmark.BookInfo 6)}}
+          <p>{{ index $bookmark.BookInfo 2 }} / {{ index $bookmark.BookInfo 5 }} / {{ index $bookmark.BookInfo 6 }}</p>
+          {{ else if and (index $bookmark.BookInfo 2) (index $bookmark.BookInfo 5)}}
+          <p>{{ index $bookmark.BookInfo 2 }} / {{ index $bookmark.BookInfo 5 }}</p>
+          {{ else if and (index $bookmark.BookInfo 2) (index $bookmark.BookInfo 6)}}
+          <p>{{ index $bookmark.BookInfo 2 }} / {{ index $bookmark.BookInfo 6 }}</p>
+          {{ else if and (index $bookmark.BookInfo 5) (index $bookmark.BookInfo 6)}}
+          <p>{{ index $bookmark.BookInfo 5 }} / {{ index $bookmark.BookInfo 6 }}</p>
+          {{ else if index $bookmark.BookInfo 2 }}
+          <p>{{ index $bookmark.BookInfo 2 }}</p>
+          {{ else if index $bookmark.BookInfo 5 }}
+          <p>{{ index $bookmark.BookInfo 5 }}</p>
+          {{ else if index $bookmark.BookInfo 6 }}
+          <p>{{ index $bookmark.BookInfo 6 }}</p>
+          {{ end }}
+
+          <!-- 書籍概要 -->
+          <p style="text-overflow: ellipsis;-webkit-text-overflow: ellipsis;-o-text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{ index $bookmark.BookInfo 3 }}</p>
+        </div>
+
+        <!-- ブックマーク削除 -->
+        <div>
+          <a href="#" id="remove-bookmark" class="remove-toggle material-symbols-outlined" style="text-decoration: none;color: red;">
+            bookmark_remove
+          </a>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+    <span class="tooltipText">リストから削除</span>
+    {{ else }}
+    <p>ブックマークされた書籍はありません。</p>
+    {{ end }}
+  </div>
+	<script>
+    // ページ読み込み時の処理
+    $(document).ready(function () {
+      // すべてのli要素からactiveクラスを削除
+      $("#header li").removeClass("active");
+
+      // クリックされたli要素にactiveクラスを付与
+      $("#header #afterRedirectContents2").addClass("active");
+    });
+
+    // ブックマーク削除アイコンがクリックされたときの処理
+    $("#remove-bookmark").on("click", function () {
+      // フォームデータをAjaxで送信する関数
+      $.ajax({
+        type: "PUT",
+        url: "/bookmark",
+        data: {
+          bookmark_id: $("#bookmark-id").val(),
+        },
+        success: function (response) {
+          // 成功の場合は完了メッセージを表示
+          alert(response);
+
+          // 画面をリロード
+          location.reload();
+        },
+        error: function (xhr, status, error) {
+          // エラーの場合はエラーメッセージを表示
+          $(".error").text(xhr.responseJSON.Error);
+        }
+      });
+    });
+	</script>
+</body>
+</html>

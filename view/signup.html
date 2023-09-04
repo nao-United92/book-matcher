@@ -1,0 +1,93 @@
+{{ template "base" . }}
+
+<!DOCTYPE html>
+<html>
+
+<body>
+  <h2 style="text-align: center;">アカウント登録</h2>
+  <div class="container">
+    <p class="error"></p>
+    <p class="success"></p>
+    <form id="signupForm">
+      <!-- 新規登録データの入力エリア -->
+      <div class="form-group" style="margin-top: 15px;">
+        <label for="username" style="float: left;">ユーザー名</label>
+        <span class="require-item">*</span>
+        <input id="username" type="text" name="username" placeholder="ユーザー名" required>
+      </div>
+      <div class="form-group">
+        <label for="address" style="float: left;">メールアドレス</label>
+        <span class="require-item">*</span>
+        <input id="address" type="text" name="address" placeholder="メールアドレス" required>
+      </div>
+      <div class="form-group">
+        <label for="password" style="float: left;">パスワード</label>
+        <span class="require-item">*</span>
+        <div style="position: relative;">
+          <input id="password" type="password" name="password" placeholder="パスワード" required>
+          <div class="display-pwd-on-parent">
+            <span class="material-symbols-outlined display-pwd-on" onclick="togglePasswordVisibility()">
+              visibility_off
+            </span>
+          </div>
+        </div>
+        <p class="li-label">半角英数・記号：8～16文字</p>
+      </div>
+
+      <!-- 新規登録 -->
+      <button class="btn" type="submit">
+        登録
+      </button>
+
+      <!-- ローディングオーバーレイ -->
+      <div id="loadingOverlay">
+        <div class="loader"></div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // 登録ボタンがクリックされたときの処理
+    $("#signupForm").submit(function (e) {
+      e.preventDefault();
+
+      // フォームデータをAjaxで送信する関数
+      var formData = $("#signupForm").serialize();
+      $.ajax({
+        type: "POST",
+        url: "/signup",
+        data: formData,
+        beforeSend: function() {
+          // ローディングオーバーレイを表示
+          $("#loadingOverlay").show();
+        },
+        success: function (response) {
+          // リダイレクト後のコンテンツを表示し、リダイレクト前のコンテンツを非表示にする
+          $("#afterRedirectContents1").show();
+          $("#afterRedirectContents2").show();
+          $("#beforeRedirectContents1").hide();
+          $("#beforeRedirectContents2").hide();
+
+          // ログインフォームを非表示
+          $(".container").hide();
+
+          // ログインステータスをローカルストレージへ保存
+          localStorage.setItem("login-status", "logined");
+
+          // プロフィールフォームを表示
+          window.location.href = "/profile";
+        },
+        complete: function() {
+          // ローディングオーバーレイを非表示
+          $("#loadingOverlay").hide();
+        },
+        error: function (xhr, status, error) {
+            // エラーの場合はエラーメッセージを表示
+            $(".error").text(xhr.responseJSON.Error);
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
