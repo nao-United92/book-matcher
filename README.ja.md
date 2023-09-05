@@ -146,6 +146,7 @@
 <ul>
   <li>書籍レビュー投稿機能</li>
   <li>フレンド閲覧・追加機能</li>
+  <li>通知機能</li>
 </ul>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
