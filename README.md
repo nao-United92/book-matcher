@@ -10,7 +10,7 @@ English | [日本語](https://github.com/nao-United92/book-matcher/blob/main/REA
   <summary>TABLE OF CONTENTS</summary>
   <ol>
     <li><a href="#overview"> ➤ Overview</a></li>
-    <li><a href="#use-stack"> ➤ Use Stack</a></li>
+    <li><a href="#technologies"> ➤ Technologies</a></li>
     <li><a href="#project-files-description"> ➤ Project Files Description</a></li>
     <li><a href="#getting-started"> ➤ Getting Started</a></li>
     <li><a href="#ongoing"> ➤ Ongoing</a></li>
@@ -32,8 +32,8 @@ English | [日本語](https://github.com/nao-United92/book-matcher/blob/main/REA
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
-<!-- Use Stack -->
-<h2 id="use-stack"> :gear: Use Stack</h2>
+<!-- technologies -->
+<h2 id="technologies"> :gear: Technologies</h2>
 
 <p align="justify">
 <img src="https://img.shields.io/badge/-Docker-1488C6.svg?logo=docker&style=plastic">
