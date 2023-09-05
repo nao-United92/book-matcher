@@ -11,17 +11,9 @@
     <li><a href="#use-stack"> ➤ 使用技術</a></li>
     <li><a href="#project-files-description"> ➤ ファイル概要</a></li>
     <li><a href="#getting-started"> ➤ 起動方法</a></li>
-    <li><a href="#function1"> ➤ 機能 1: メニュー </a></li>
-    <li><a href="#function2"> ➤ 機能 2: 新規登録 </a></li>
-    <li><a href="#function3"> ➤ 機能 3: ログイン </a></li>
-    <li><a href="#function4"> ➤ 機能 4: 書籍検索　</a></li>
-    <li><a href="#function5"> ➤ 機能 5: プロフィール　</a></li>
-    <li><a href="#function6"> ➤ 機能 6: ブックマーク　</a></li>
-    <li><a href="#function7"> ➤ 機能 7: ログアウト </a></li>
     <li><a href="#ongoing"> ➤ 実装中</a></li>
     <li><a href="#to-be-implemented"> ➤ 実装予定</a></li>
-    <li><a href="#references"> ➤ 参考文献</a></li>
-    <li><a href="#link"> ➤ リンク</a></li>
+    <li><a href="#references"> ➤ 参考</a></li>
   </ol>
 </details>
 
@@ -66,20 +58,20 @@
 
 <h3>db/my.cnf</h3>
 <ul>
-  <b>DB(MySQL)サーバの設定ファイルで、サーバ起動時に読み込まれます。DBの動作に関するオプションが設定されています。</b>
+  DB(MySQL)サーバの設定ファイルで、サーバ起動時に読み込まれます。DB の動作に関するオプションが設定されています。
 </ul>
 
 <h3>model</h3>
 <ul>
-  <li><b>bookmark.go</b> - ブックマークのテーブルカラム定義、データの CRUD　処理が記述されています。</li>
-  <li><b>user</b> - ユーザーデータのテーブルカラム定義、データの CRUD　処理が記述されています。</li>
+  <li><b>bookmark.go</b> - ブックマークのテーブルカラム定義、データの CRUD 処理が記述されています。</li>
+  <li><b>user</b> - ユーザーデータのテーブルカラム定義、データの CRUD 処理が記述されています。</li>
 </ul>
 
 <h3>static</h3>
 <ul>
-  <li><b>css/style.css</b> - 共通CSSファイルです。</li>
+  <li><b>css/style.css</b> - 共通 CSS ファイルです。</li>
   <li><b>images/</b> - テスト画像が格納されています。</li>
-  <li><b>js/script.js</b> - 共通JSファイルです。</li>
+  <li><b>js/script.js</b> - 共通 JS ファイルです。</li>
 </ul>
 
 <h3>view</h3>
@@ -98,30 +90,65 @@
 
 <h3>.env</h3>
 <ul>
-  <b>データベースの接続情報が記述されています。main.go から読み出され、DB 接続で使用されます。</b>
+  データベースの接続情報が記述されています。main.go から読み出され、DB 接続で使用されます。
 </ul>
 
 <h3>Dockerfile</h3>
 <ul>
-  <b>Docker イメージの指定、ホットリロードツールである air のインストール、WORKDIR の変更が記述されています。</b>
+  Docker イメージの指定、ホットリロードツール(air)のインストール、WORKDIR の変更が記述されています。
 </ul>
 
 <h3>compose.yaml</h3>
 <ul>
-  <b>アプリサーバ(go)、DB サーバ(db)、DBクライアントツール(phpmyadmin)用のコンテナ定義が記述されています。</b>
+  アプリサーバ(go)、DB サーバ(db)、DBクライアントツール(phpmyadmin)用のコンテナ定義が記述されています。
 </ul>
 
 <h3>go.mod</h3>
 <ul>
-  <b>Go プログラミングで使われるモジュールの依存関係が記述されています。</b>
+  Go プログラミングで使われるモジュールの依存関係が記述されています。
 </ul>
 
 <h3>go.sum</h3>
 <ul>
-  <b>go.mod ファイル内のモジュールの依存関係がハッシュ化された情報が記述されています。</b>
+  go.mod ファイル内のモジュールの依存関係がハッシュ化された情報が記述されています。
 </ul>
 
 <h3>main.go</h3>
 <ul>
-  <b>Go プログラムのエントリーポイントです。プログラム起動直後は、まず「main」パッケージに属する「main 関数」が実行されます。</b>
+  Go プログラムのエントリーポイントです。プログラム起動直後は、まず「main」パッケージに属する「main 関数」が実行されます。
 </ul>
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
+<!-- 起動方法 -->
+<h2 id="getting-started"> :arrow_forward: 起動方法</h2>
+
+<p><b>1. 初めて起動する場合</b> - イメージ構築、コンテナ構築・起動を一括で実行</p>
+<pre><code>$ docker-compose up --build -d</code></pre>
+
+<p><b>2. 起動2回目以降の場合</b> - コンテナ構築・起動を実行</p>
+<pre><code>$ docker-compose up -d</code></pre>
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
+<!-- 実装中 -->
+<h2 id="ongoing"> :crossed_swords: 実装中</h2>
+<ul>
+  <li>パスワード再設定機能</li>
+</ul>
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
+<!-- 実装予定 -->
+<h2 id="to-be-implemented"> :memo: 実装予定</h2>
+<ul>
+  <li>書籍レビュー投稿機能</li>
+  <li>フレンド閲覧・追加機能</li>
+</ul>
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
+<!-- 参考 -->
+<h2 id="references"> :scroll: 参考</h2>
+
+[![GitHub Badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/nao-United92)
