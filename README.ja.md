@@ -1,7 +1,7 @@
 <h1 align="center"> Book Matcher </h1>
 <h5 align="center"> Development Started - Summer 2023 </h5>
 
-[English](https://github.com/nao-United92/book-matcher/README.md) | 日本語</h2>
+[English](https://github.com/nao-United92/book-matcher/blob/main/README.md) | 日本語</h2>
 
 <!-- TABLE OF CONTENTS -->
 <h2 id="table-of-contents"> :book: 目次</h2>
