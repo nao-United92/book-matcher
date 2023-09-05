@@ -2,7 +2,7 @@
 <h5 align="center"> Development Started - Summer 2023 </h5>
 
 <!-- TABLE OF CONTENTS -->
-<h2 id="目次"> :book: 目次</h2>
+<h2 id="table-of-contents"> :book: 目次</h2>
 
 <details open="open">
   <summary>目次</summary>
