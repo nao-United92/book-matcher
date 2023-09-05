@@ -49,12 +49,12 @@
 
 <h3>controller</h3>
 <ul>
-  <li><b>bookmark/bookmark.go</b> - ブックマーク機能に関連するイベント処理が記述されています。</li>
-  <li><b>login/login.go</b> - ログイン機能に関連するイベント処理が記述されています。</li>
-  <li><b>password/password.go</b> - パスワード再発行機能に関連するイベント処理が記述されています。</li>
-  <li><b>profile/profile.go</b> - プロフィール機能に関連するイベント処理が記述されています。</li>
-  <li><b>search/search.go</b> - 書籍検索機能に関連するイベント処理が記述されています。</li>
-  <li><b>signup/signup.go</b> - ユーザー新規登録機能に関連するイベント処理が記述されています。</li>
+  <li><b>bookmark/bookmark.go</b> - ブックマーク機能に関連するイベント処理</li>
+  <li><b>login/login.go</b> - ログイン機能に関連するイベント処理</li>
+  <li><b>password/password.go</b> - パスワード再発行機能に関連するイベント処理</li>
+  <li><b>profile/profile.go</b> - プロフィール機能に関連するイベント処理</li>
+  <li><b>search/search.go</b> - 書籍検索機能に関連するイベント処理</li>
+  <li><b>signup/signup.go</b> - ユーザー新規登録機能に関連するイベント処理</li>
 </ul>
 
 <h3>db/my.cnf</h3>
@@ -64,28 +64,28 @@
 
 <h3>model</h3>
 <ul>
-  <li><b>bookmark.go</b> - ブックマークのテーブルカラム定義、データの CRUD 処理が記述されています。</li>
-  <li><b>user</b> - ユーザーデータのテーブルカラム定義、データの CRUD 処理が記述されています。</li>
+  <li><b>bookmark.go</b> - ブックマークのテーブルカラム定義、データの CRUD 処理</li>
+  <li><b>user</b> - ユーザーデータのテーブルカラム定義、データの CRUD 処理</li>
 </ul>
 
 <h3>static</h3>
 <ul>
-  <li><b>css/style.css</b> - 共通 CSS ファイルです。</li>
+  <li><b>css/style.css</b> - 共通 CSS ファイル</li>
   <li><b>images/</b> - テスト用のサンプル画像が格納されています。</li>
-  <li><b>js/script.js</b> - 共通 JS ファイルです。</li>
+  <li><b>js/script.js</b> - 共通 JS ファイル</li>
 </ul>
 
 <h3>view</h3>
 <ul>
-  <li><b>base.html</b> - 共通ページのデザインが記述されています。</li>
-  <li><b>bookmark.html</b> - ブックマークリストフォームのデザインが記述されています。</li>
-  <li><b>login.html</b> - ログインフォームのデザインが記述されています。</li>
-  <li><b>menu.html</b> - メニュー(初期表示)ページのデザインが記述されています。</li>
-  <li><b>password_reset.html</b> - パスワード再発行フォームのデザインが記述されています。</li>
-  <li><b>profile.html</b> - プロフィールフォームのデザインが記述されています。</li>
-  <li><b>search_books.html</b> - 書籍検索リストフォームのデザインが記述されています。</li>
-  <li><b>search_books_detail.html</b> - 書籍詳細フォームのデザインが記述されています。</li>
-  <li><b>signup.html</b> - ユーザー新規登録フォームのデザインが記述されています。</li>
+  <li><b>base.html</b> - 共通ページのデザイン</li>
+  <li><b>bookmark.html</b> - ブックマークリストフォームのデザイン</li>
+  <li><b>login.html</b> - ログインフォームのデザイン</li>
+  <li><b>menu.html</b> - メニュー(初期表示)ページのデザイン。</li>
+  <li><b>password_reset.html</b> - パスワード再発行フォームのデザイン</li>
+  <li><b>profile.html</b> - プロフィールフォームのデザイン</li>
+  <li><b>search_books.html</b> - 書籍検索リストフォームのデザイン</li>
+  <li><b>search_books_detail.html</b> - 書籍詳細フォームのデザイン</li>
+  <li><b>signup.html</b> - ユーザー新規登録フォームのデザイン</li>
 </ul>
 
 <h3>.env</h3>
@@ -95,12 +95,12 @@
 
 <h3>Dockerfile</h3>
 <ul>
-  Docker イメージの指定、ホットリロードツール(air)のインストール、WORKDIR の変更が記述されています。
+  Docker イメージの指定、ホットリロードツール(air)のインストール、WORKDIR の変更を実施
 </ul>
 
 <h3>compose.yaml</h3>
 <ul>
-  アプリサーバ(go)、DB サーバ(db)、DBクライアントツール(phpmyadmin)用のコンテナ定義が記述されています。
+  アプリサーバ(go)、DB サーバ(db)、DBクライアントツール(phpmyadmin)のコンテナ定義が記述されています。
 </ul>
 
 <h3>go.mod</h3>
@@ -110,7 +110,7 @@
 
 <h3>go.sum</h3>
 <ul>
-  go.mod ファイル内のモジュールの依存関係がハッシュ化された情報が記述されています。
+  go.mod ファイル内のモジュールの依存関係をハッシュ化した情報が記述されています。
 </ul>
 
 <h3>main.go</h3>
