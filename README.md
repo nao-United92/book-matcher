@@ -145,7 +145,8 @@ English | [日本語](https://github.com/nao-United92/book-matcher/blob/main/REA
 <h2 id="to-be-implemented"> :memo: To Be Implemented</h2>
 <ul>
   <li>Book review posting function</li>
-  <li>View and add friends</li>
+  <li>View and add friends function</li>
+  <li>Notification function</li>
 </ul>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
