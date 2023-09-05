@@ -25,13 +25,13 @@ type User struct {
 /*
 * ユーザーデータの単一検索
 * 【リクエスト】
-* 	db: データベース接続オブジェクト
-* 	conditions: 検索条件
-* 	orderBy: ソート順
+*   db: データベース接続オブジェクト
+*   conditions: 検索条件
+*   orderBy: ソート順
 *
 * 【レスポンス】
-* 	*User: 検索結果
-*		error: エラー内容
+*   *User: 検索結果
+*   error: エラー内容
  */
 func GetUserData(db *gorm.DB, conditions []interface{}, orderBy string) (*User, error) {
 	query := db
@@ -61,14 +61,14 @@ func GetUserData(db *gorm.DB, conditions []interface{}, orderBy string) (*User, 
 /*
 * 特定カラムデータに紐づくユーザーデータの検索
 * 【リクエスト】
-*		db: データベース接続オブジェクト
-*		search_column: 検索カラム
-*		conditions: 検索条件
-*		target_data: 検索条件に対応するカラムデータ
+*   db: データベース接続オブジェクト
+*   search_column: 検索カラム
+*   conditions: 検索条件
+*   target_data: 検索条件に対応するカラムデータ
 *
 * 【レスポンス】
-*		[]string: 検索結果
-*		error: エラー内容
+*   []string: 検索結果
+*   error: エラー内容
  */
 func GetUserSpecificData(db *gorm.DB, search_column string, conditions string, target_data ...interface{}) ([]string, error) {
 	var user_data []string
@@ -81,14 +81,14 @@ func GetUserSpecificData(db *gorm.DB, search_column string, conditions string, t
 }
 
 /*
-*	ユーザーデータの新規登録
+* ユーザーデータの新規登録
 * 【リクエスト】
-*		db: データベース接続オブジェクト
-*		user_data: 登録データセット
+*   db: データベース接続オブジェクト
+*   user_data: 登録データセット
 *
 * 【レスポンス】
-*		*User: 登録結果
-*		error: エラー内容
+*   *User: 登録結果
+*   error: エラー内容
  */
 func CreateUserData(db *gorm.DB, user_data ...string) (*User, error) {
 	// 登録データをセット
@@ -110,13 +110,13 @@ func CreateUserData(db *gorm.DB, user_data ...string) (*User, error) {
 /*
 * ユーザーデータの更新
 * 【リクエスト】
-*		db: データベース接続オブジェクト
-*		user_id: 更新対象のユーザーID
-*		updates: 更新データセット
+*   db: データベース接続オブジェクト
+*   user_id: 更新対象のユーザーID
+*   updates: 更新データセット
 *
 * 【レスポンス】
-*		*User: 更新結果
-*		error: エラー内容
+*   *User: 更新結果
+*   error: エラー内容
  */
 func UpdateUserData(db *gorm.DB, user_id int, updates map[string]interface{}) (*User, error) {
 	// ユーザーデータを検索

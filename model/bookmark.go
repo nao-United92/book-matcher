@@ -21,13 +21,13 @@ type Bookmark struct {
 /*
 * ブックマークデータの単一検索
 * 【リクエスト】
-* 	db: データベース接続オブジェクト
-* 	conditions: 検索条件
-* 	orderBy: ソート順
+*   db: データベース接続オブジェクト
+*   conditions: 検索条件
+*   orderBy: ソート順
 *
 * 【レスポンス】
-* 	*Bookmark: 検索結果
-*		error: エラー内容
+*   *Bookmark: 検索結果
+*   error: エラー内容
  */
 func GetBookmarkData(db *gorm.DB, conditions []interface{}, orderBy string) (*Bookmark, error) {
 	query := db
@@ -57,14 +57,14 @@ func GetBookmarkData(db *gorm.DB, conditions []interface{}, orderBy string) (*Bo
 /*
 * ブックマークデータの一括検索
 * 【リクエスト】
-*		db: データベース接続オブジェクト
-*		search_column: 検索カラム
-*		conditions: 検索条件
-*		target_data: 検索条件に対応するカラムデータ
+*   db: データベース接続オブジェクト
+*   search_column: 検索カラム
+*   conditions: 検索条件
+*   target_data: 検索条件に対応するカラムデータ
 *
 * 【レスポンス】
-*		[]string: 検索結果
-*		error: エラー内容
+*   []string: 検索結果
+*   error: エラー内容
  */
 func GetBookmarkDatas(db *gorm.DB, conditions string, target_data ...interface{}) ([]Bookmark, error) {
 	var bookmark_data []Bookmark
@@ -80,14 +80,14 @@ func GetBookmarkDatas(db *gorm.DB, conditions string, target_data ...interface{}
 /*
 * 特定カラムデータに紐づくブックマークデータの検索
 * 【リクエスト】
-*		db: データベース接続オブジェクト
-*		search_column: 検索カラム
-*		conditions: 検索条件
-*		target_data: 検索条件に対応するカラムデータ
+*   db: データベース接続オブジェクト
+*   search_column: 検索カラム
+*   conditions: 検索条件
+*   target_data: 検索条件に対応するカラムデータ
 *
 * 【レスポンス】
-*		[]string: 検索結果
-*		error: エラー内容
+*   []string: 検索結果
+*   error: エラー内容
  */
 func GetBookmarkSpecificData(db *gorm.DB, search_column string, conditions string, target_data ...interface{}) ([]string, error) {
 	var bookmark_data []string
@@ -100,14 +100,14 @@ func GetBookmarkSpecificData(db *gorm.DB, search_column string, conditions strin
 }
 
 /*
-*	ブックマークデータの新規登録
+* ブックマークデータの新規登録
 * 【リクエスト】
-*		db: データベース接続オブジェクト
-*		bookmark_data: 登録データセット
+*   db: データベース接続オブジェクト
+*   bookmark_data: 登録データセット
 *
 * 【レスポンス】
-*		*Bookmark: 登録結果
-*		error: エラー内容
+*   *Bookmark: 登録結果
+*   error: エラー内容
  */
 func CreateBookmarkData(db *gorm.DB, bookmark_data ...string) (*Bookmark, error) {
 	// int への型変換
@@ -135,13 +135,13 @@ func CreateBookmarkData(db *gorm.DB, bookmark_data ...string) (*Bookmark, error)
 /*
 * ブックマークデータの更新
 * 【リクエスト】
-*		db: データベース接続オブジェクト
-*		bookmark_id: 更新対象のブックマークID
-*		updates: 更新データセット
+*   db: データベース接続オブジェクト
+*   bookmark_id: 更新対象のブックマークID
+*   updates: 更新データセット
 *
 * 【レスポンス】
-*		*Bookmark: 更新結果
-*		error: エラー内容
+*   *Bookmark: 更新結果
+*   error: エラー内容
  */
 func UpdateBookmarkData(db *gorm.DB, bookmark_id int, updates map[string]interface{}) (*Bookmark, error) {
 	// ブックマークデータを検索
@@ -163,12 +163,12 @@ func UpdateBookmarkData(db *gorm.DB, bookmark_id int, updates map[string]interfa
 /*
 * ブックマークデータの削除
 * 【リクエスト】
-*		db: データベース接続オブジェクト
-*		conditions: 検索条件
-*		target_data: 検索条件に対応するカラムデータ
+*   db: データベース接続オブジェクト
+*   conditions: 検索条件
+*   target_data: 検索条件に対応するカラムデータ
 *
 * 【レスポンス】
-*		error: エラー内容
+*   error: エラー内容
  */
 func DeleteBookmarkData(db *gorm.DB, condition string, target_data ...interface{}) error {
 	var bookmark Bookmark

@@ -15,8 +15,8 @@ import (
 /*
 * プロフィールフォーム表示
 * 【リクエスト】
-*		c: リクエストとレスポンスのコンテキストを表すオブジェクト
-*		db: データベース接続オブジェクト
+*   c: リクエストとレスポンスのコンテキストを表すオブジェクト
+*   db: データベース接続オブジェクト
  */
 func ShowProfileForm(c *gin.Context, db *gorm.DB) {
 	// セッションのデフォルトストアからセッションオブジェクトを取得
@@ -51,8 +51,8 @@ func ShowProfileForm(c *gin.Context, db *gorm.DB) {
 /*
 * プロフィールデータの更新
 * 【リクエスト】
-*		c: リクエストとレスポンスのコンテキストを表すオブジェクト
-*		db: データベース接続オブジェクト
+*   c: リクエストとレスポンスのコンテキストを表すオブジェクト
+*   db: データベース接続オブジェクト
  */
 func UpdateProfileInfo(c *gin.Context, db *gorm.DB) {
 	// セッションのデフォルトストアからセッションオブジェクトを取得
@@ -112,10 +112,10 @@ func UpdateProfileInfo(c *gin.Context, db *gorm.DB) {
 }
 
 /*
-*	アカウントの削除
+* アカウントの削除
 * 【リクエスト】
-*		c: リクエストとレスポンスのコンテキストを表すオブジェクト
-*		db: データベース接続オブジェクト
+*   c: リクエストとレスポンスのコンテキストを表すオブジェクト
+*   db: データベース接続オブジェクト
  */
 func DeleteAccount(c *gin.Context, db *gorm.DB) {
 	// セッションのデフォルトストアからセッションオブジェクトを取得
@@ -152,13 +152,13 @@ func DeleteAccount(c *gin.Context, db *gorm.DB) {
 }
 
 /*
-*	メールアドレスの存在チェック
+* メールアドレスの存在チェック
 * 【リクエスト】
-*		input_address: フォームで入力されたメールアドレス
-*		address_list: DBから取得したチェック対象のメールアドレス
+*   input_address: フォームで入力されたメールアドレス
+*   address_list: DBから取得したチェック対象のメールアドレス
 *
 * 【レスポンス】
-*		bool: true / false
+*   bool: true / false
  */
 func isAddressExists(input_address string, address_list []string) bool {
 	for _, address := range address_list {
@@ -170,12 +170,12 @@ func isAddressExists(input_address string, address_list []string) bool {
 }
 
 /*
-*	メールアドレスのフォーマットチェック
+* メールアドレスのフォーマットチェック
 * 【リクエスト】
-*		address: チェック対象のメールアドレス
+*   address: チェック対象のメールアドレス
 *
 * 【レスポンス】
-*		bool: true / false
+*   bool: true / false
  */
 func isValidAddress(address string) bool {
 	// RFC 5322に基づく正規表現パターンを定義

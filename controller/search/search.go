@@ -31,9 +31,9 @@ type BookInfo struct {
 }
 
 /*
-*	書籍検索
+* 書籍検索
 * 【リクエスト】
-*		c: リクエストとレスポンスのコンテキストを表すオブジェクト
+*   c: リクエストとレスポンスのコンテキストを表すオブジェクト
  */
 func SearchBooks(c *gin.Context) {
 	// クエリパラメータ取得
@@ -49,10 +49,10 @@ func SearchBooks(c *gin.Context) {
 }
 
 /*
-*	書籍詳細データの表示
+* 書籍詳細データの表示
 * 【リクエスト】
-*		c: リクエストとレスポンスのコンテキストを表すオブジェクト
-*		db: データベース接続オブジェクト
+*   c: リクエストとレスポンスのコンテキストを表すオブジェクト
+*   db: データベース接続オブジェクト
  */
 func ShowBooksDetailInfo(c *gin.Context, db *gorm.DB) {
 	// セッションのデフォルトストアからセッションオブジェクトを取得
@@ -105,12 +105,12 @@ func ShowBooksDetailInfo(c *gin.Context, db *gorm.DB) {
 }
 
 /*
-*	書籍検索、検索結果の画面表示
+* 書籍検索、検索結果の画面表示
 * 【リクエスト】
-*		c: リクエストとレスポンスのコンテキストを表すオブジェクト
-*		q: フォームで入力された検索文字列
-*		page: ページ番号
-*		orderBy: 順序種別
+*   c: リクエストとレスポンスのコンテキストを表すオブジェクト
+*   q: フォームで入力された検索文字列
+*   page: ページ番号
+*   orderBy: 順序種別
  */
 func RenderPage(c *gin.Context, q string, page int, orderBy string) {
 	// 書籍検索
@@ -144,17 +144,17 @@ func RenderPage(c *gin.Context, q string, page int, orderBy string) {
 }
 
 /*
-*	書籍詳細データの検索
+* 書籍詳細データの検索
 * 【リクエスト】
-*		c: リクエストとレスポンスのコンテキストを表すオブジェクト
-*		q: フォームで入力された検索文字列
-*		page: ページ番号
-*		orderBy: 順序種別
+*   c: リクエストとレスポンスのコンテキストを表すオブジェクト
+*   q: フォームで入力された検索文字列
+*   page: ページ番号
+*   orderBy: 順序種別
 *
 * 【レスポンス】
-*		[]BookInfo: 書籍検索データ
-*		int: ページ総数
-*		error: エラー内容
+*   []BookInfo: 書籍検索データ
+*   int: ページ総数
+*   error: エラー内容
  */
 func SearchBooksInfo(c *gin.Context, q string, page int, orderBy string) ([]BookInfo, int, error) {
 	// Google Books APIのエンドポイントを指定
@@ -226,13 +226,13 @@ func SearchBooksInfo(c *gin.Context, q string, page int, orderBy string) ([]Book
 }
 
 /*
-*	マップから指定したキーの文字列値を取得
+* マップから指定したキーの文字列値を取得
 * 【リクエスト】
-*		m: マッピングデータ
-*		key: マップデータから取得するキー
+*   m: マッピングデータ
+*   key: マップデータから取得するキー
 *
 * 【レスポンス】
-*		string: 取得文字列値
+*   string: 取得文字列値
  */
 func getString(m map[string]interface{}, key string) string {
 	if value, ok := m[key].(string); ok {
@@ -242,13 +242,13 @@ func getString(m map[string]interface{}, key string) string {
 }
 
 /*
-*	マップから指定したキーの文字列のスライスを取得
+* マップから指定したキーの文字列のスライスを取得
 * 【リクエスト】
-*		m: マッピングデータ
-*		key: マップデータから取得するキー
+*   m: マッピングデータ
+*   key: マップデータから取得するキー
 *
 * 【レスポンス】
-*		[]string: 取得文字列のスライス
+*   []string: 取得文字列のスライス
  */
 func getStringSlice(m map[string]interface{}, key string) []string {
 	if values, ok := m[key].([]interface{}); ok {

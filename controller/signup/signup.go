@@ -12,19 +12,19 @@ import (
 )
 
 /*
-*	新規登録フォーム表示
+* 新規登録フォーム表示
 * 【リクエスト】
-*		c: リクエストとレスポンスのコンテキストを表すオブジェクト
+*   c: リクエストとレスポンスのコンテキストを表すオブジェクト
  */
 func ShowSignupForm(c *gin.Context) {
 	c.HTML(http.StatusOK, "signup.html", nil)
 }
 
 /*
-*	ユーザーデータの新規登録
+* ユーザーデータの新規登録
 * 【リクエスト】
-*		c: リクエストとレスポンスのコンテキストを表すオブジェクト
-*		db: データベース接続オブジェクト
+*   c: リクエストとレスポンスのコンテキストを表すオブジェクト
+*   db: データベース接続オブジェクト
  */
 func Signup(c *gin.Context, db *gorm.DB) {
 	// セッションのデフォルトストアからセッションオブジェクトを取得
@@ -88,13 +88,13 @@ func Signup(c *gin.Context, db *gorm.DB) {
 }
 
 /*
-*	メールアドレスの存在チェック
+* メールアドレスの存在チェック
 * 【リクエスト】
-*		input_address: フォームで入力されたメールアドレス
-*		address_list: DBから取得したチェック対象のメールアドレス
+*   input_address: フォームで入力されたメールアドレス
+*   address_list: DBから取得したチェック対象のメールアドレス
 *
 * 【レスポンス】
-*		bool: true / false
+*   bool: true / false
  */
 func isAddressExists(input_address string, address_list []string) bool {
 	for _, address := range address_list {
@@ -106,12 +106,12 @@ func isAddressExists(input_address string, address_list []string) bool {
 }
 
 /*
-*	メールアドレスのフォーマットチェック
+* メールアドレスのフォーマットチェック
 * 【リクエスト】
-*		address: チェック対象のメールアドレス
+*   address: チェック対象のメールアドレス
 *
 * 【レスポンス】
-*		bool: true / false
+*   bool: true / false
  */
 func isValidAddress(address string) bool {
 	// RFC 5322に基づく正規表現パターンを定義
@@ -126,12 +126,12 @@ func isValidAddress(address string) bool {
 }
 
 /*
-*	パスワードが半角英数・記号：8～16文字を満たすか否かのチェック
+* パスワードが半角英数・記号：8～16文字を満たすか否かのチェック
 * 【リクエスト】
-*		password: メールアドレス
+*   password: メールアドレス
 *
 * 【レスポンス】
-*		bool: チェック結果
+*   bool: チェック結果
  */
 func ValidatePassword(password string) bool {
 	// 正規表現でパスワードが半角英数・記号：8～16文字か否かのチェック
@@ -139,13 +139,13 @@ func ValidatePassword(password string) bool {
 }
 
 /*
-*	パスワードの暗号(Hash)化
+* パスワードの暗号(Hash)化
 * 【リクエスト】
-*		password: ハッシュ化対象のメールアドレス
+*   password: ハッシュ化対象のメールアドレス
 *
 * 【レスポンス】
-*		string: ハッシュ化されたパスワード
-*		error: エラー内容
+*   string: ハッシュ化されたパスワード
+*   error: エラー内容
  */
 func PasswordHash(password string) (string, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)

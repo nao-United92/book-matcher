@@ -13,7 +13,7 @@ import (
 /*
 * ログインフォーム表示
 * 【リクエスト】
-*		c: リクエストとレスポンスのコンテキストを表すオブジェクト
+*   c: リクエストとレスポンスのコンテキストを表すオブジェクト
  */
 func ShowLoginForm(c *gin.Context) {
 	// ログインフォームを表示
@@ -23,8 +23,8 @@ func ShowLoginForm(c *gin.Context) {
 /*
 * ログイン
 * 【リクエスト】
-*		c: リクエストとレスポンスのコンテキストを表すオブジェクト
-*		db: データベース接続オブジェクト
+*   c: リクエストとレスポンスのコンテキストを表すオブジェクト
+*   db: データベース接続オブジェクト
  */
 func Login(c *gin.Context, db *gorm.DB) {
 	// セッションのデフォルトストアからセッションオブジェクトを取得
@@ -61,11 +61,11 @@ func Login(c *gin.Context, db *gorm.DB) {
 /*
 * 暗号(Hash)化および入力されたパスワードの比較
 * 【リクエスト】
-*		hashedPassword: ハッシュ化されたパスワード
-*		password: ハッシュ化前のパスワード
+*   hashedPassword: ハッシュ化されたパスワード
+*   password: ハッシュ化前のパスワード
 *
 * 【レスポンス】
-*		error: エラー内容
+*   error: エラー内容
  */
 func CompareHashAndPassword(hashedPassword, password string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
@@ -74,7 +74,7 @@ func CompareHashAndPassword(hashedPassword, password string) error {
 /*
 * ログアウト
 * 【リクエスト】
-*		c: リクエストとレスポンスのコンテキストを表すオブジェクト
+*   c: リクエストとレスポンスのコンテキストを表すオブジェクト
  */
 func Logout(c *gin.Context) {
 	// セッションのデフォルトストアからセッションオブジェクトを取得
