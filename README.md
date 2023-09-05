@@ -70,21 +70,20 @@
 <h3>static</h3>
 <ul>
   <li><b>css/style.css</b> - 共通 CSS ファイルです。</li>
-  <li><b>images/</b> - テスト画像が格納されています。</li>
+  <li><b>images/</b> - テスト用のサンプル画像が格納されています。</li>
   <li><b>js/script.js</b> - 共通 JS ファイルです。</li>
 </ul>
 
 <h3>view</h3>
 <ul>
   <li><b>base.html</b> - 共通ページのデザインが記述されています。</li>
-  <li><b>bookmark.html</b> - ブックマークリストのデザインが記述されています。</li>
+  <li><b>bookmark.html</b> - ブックマークリストフォームのデザインが記述されています。</li>
   <li><b>login.html</b> - ログインフォームのデザインが記述されています。</li>
-  <li><b>menu.html</b> - メニューページのデザインが記述されています。</li>
   <li><b>menu.html</b> - メニュー(初期表示)ページのデザインが記述されています。</li>
   <li><b>password_reset.html</b> - パスワード再発行フォームのデザインが記述されています。</li>
   <li><b>profile.html</b> - プロフィールフォームのデザインが記述されています。</li>
-  <li><b>search_books.html</b> - 書籍検索結果リストのデザインが記述されています。</li>
-  <li><b>search_books_detail.html</b> - 書籍詳細情報のデザインが記述されています。</li>
+  <li><b>search_books.html</b> - 書籍検索リストフォームのデザインが記述されています。</li>
+  <li><b>search_books_detail.html</b> - 書籍詳細フォームのデザインが記述されています。</li>
   <li><b>signup.html</b> - ユーザー新規登録フォームのデザインが記述されています。</li>
 </ul>
 
