@@ -25,7 +25,7 @@
 
 <p align="justify"> 
   好きな本で人とつながるコミュニティサービス <b>Book Matcher</b> のプロジェクトリポジトリです。<br>
-  <b>※まだまだ未完成です。これからメイン機能の新規実装、拡張、改修を行なっていきます。</b>
+  <b>※まだまだ未完成です。これからメイン機能の新規実装、既存機能を含む拡張、改修を行なっていきます。</b>
 </p>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
