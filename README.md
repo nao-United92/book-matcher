@@ -24,7 +24,8 @@
 <h2 id="overview"> :cloud: 概要</h2>
 
 <p align="justify"> 
-  好きな本で人と繋がるマッチングサービス <b>Book Matcher</b> のプロジェクトリポジトリです。
+  読書好きのコミュニティサービス <b>Book Matcher</b> のプロジェクトリポジトリです。<br>
+  <b>※まだまだ未完成です。これからメイン機能の新規実装、拡張、改修を行なっていきます。</b>
 </p>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
