@@ -156,4 +156,5 @@
 <a href="https://fonts.google.com/icons">Material Symbols and Icons - Google Fonts</a>
 <br><br>
 
-[![GitHub Badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/nao-United92)
+<a href="https://github.com/nao-United92" target="_blank"><img alt="Github" src="https://img.shields.io/badge/GitHub-%2312100E.svg?&style=for-the-badge&logo=Github&logoColor=white" /></a>
+<a href="https://qiita.com/nao-United92" target="_blank"><img alt="Medium" src="https://img.shields.io/badge/qiita-55C500.svg?&style=for-the-badge&logo=qiita&logoColor=white" /></a>
