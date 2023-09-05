@@ -150,5 +150,11 @@
 
 <!-- 参考 -->
 <h2 id="references"> :scroll: 参考</h2>
+<a href="https://developers.google.com/books/docs/v1/using?hl=ja">Google Books APIs</a><br>
+<a href="https://qiita.com/s_emoto/items/975cc38a3e0de462966a">MVCモデルについて</a><br>
+<a href="https://qiita.com/soicchi/items/2637a9195e64fdc73609">go.mod、go.sumファイルは何なのか</a><br>
+<a href="https://the-simple.jp/what-is-o-r-mapper-explains-the-basic-concept-of-o-r-mapping-and-how-to-use-it-in-practice">O/Rマッパーとは？O/Rマッピングの基本概念と実践的な使い方を解説</a><br>
+<a href="https://fonts.google.com/icons">Material Symbols and Icons - Google Fonts</a>
+<br><br>
 
 [![GitHub Badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/nao-United92)
